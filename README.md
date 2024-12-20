@@ -11,4 +11,4 @@ The versions are optional, we expect the code to work with latest versions as we
 * [rdkit](https://www.rdkit.org/) == 2020.09.2
 
 ## Usage
-    python train_script.py --n_atom_feats 55 --n_atom_hid 128 --lr 1e-3 --n_epochs 200 --batc h_size 512
+    python train_script.py --n_atom_feats 55 --n_atom_hid 128 --lr 1e-3 --n_epochs 200 --batch_size 512
