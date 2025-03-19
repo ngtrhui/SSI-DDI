@@ -103,8 +103,7 @@ def get_mol_edge_list_and_feat_mtx(mol_graph):
     edge_list = torch.LongTensor([(b.GetBeginAtomIdx(), b.GetEndAtomIdx()) for b in mol_graph.GetBonds()])
     undirected_edge_list = torch.cat([edge_list, edge_list[:, [1, 0]]], dim=0) if len(edge_list) else edge_list
     
-    # return undirected_edge_list.T, features CPU 
-    # return undirected_edge_list.unsqueeze(0).mT, features   #GPU
+    return undirected_edge_list.T, features
 
 
 MOL_EDGE_LIST_FEAT_MTX = {drug_id: get_mol_edge_list_and_feat_mtx(mol) 
