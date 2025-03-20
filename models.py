@@ -2,7 +2,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from torch.nn.modules.container import ModuleList
-from torch_geometric.nn import (GATv2Conv,
+from torch_geometric.nn import (GATConv,
                                 SAGPooling,
                                 LayerNorm,
                                 global_mean_pool,
@@ -58,8 +58,8 @@ class SSI_DDI(nn.Module):
             repr_h.append(r_h)
             repr_t.append(r_t)
 
-            h_data.x = F.gelu(self.net_norms[i](h_data.x, h_data.batch))
-            t_data.x = F.gelu(self.net_norms[i](t_data.x, t_data.batch))
+            h_data.x = F.elu(self.net_norms[i](h_data.x, h_data.batch))
+            t_data.x = F.elu(self.net_norms[i](t_data.x, t_data.batch))
         
         repr_h = torch.stack(repr_h, dim=-2)
         repr_t = torch.stack(repr_t, dim=-2)
@@ -80,7 +80,7 @@ class SSI_DDI_Block(nn.Module):
         self.n_heads = n_heads
         self.in_features = in_features
         self.out_features = head_out_feats
-        self.conv = GATv2Conv(in_features, head_out_feats, n_heads)
+        self.conv = GATConv(in_features, head_out_feats, n_heads)
         self.readout = SAGPooling(n_heads * head_out_feats, min_score=-1)
     
     def forward(self, data):
